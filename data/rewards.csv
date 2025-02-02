@@ -1,0 +1,6 @@
+Customer_ID,Website,Spending_Amount,Rewards_Earned,Offer_Type,Coupon/Destination,Other_Detail
+CUST_001,AmexGyfter,1008,20,Shopping,Myntra,DiscountedOffer
+CUST_002,Goibibo,870,24,Travel,Domestic,HolidayPackage
+CUST_003,Hilton,1135,11,Hotel,N/A,LoyaltyProgram
+CUST_004,Goibibo,3890,114,Travel,International,HolidayPackage
+CUST_005,Hilton,4234,42,Hotel,N/A,LoyaltyProgram

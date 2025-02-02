@@ -23,7 +23,7 @@ def get_length(content):
         return "short"
 
 
-def generate_post(content, language, customer = "", feature = "", selected_offers = "", selected_products = ""):
+def generate_content(content, language, customer = "", feature = "", selected_offers = "", selected_products = ""):
     prompt = get_prompt(content, language, customer, feature, selected_offers, selected_products)
     response = llm.invoke(prompt)
     return response.content
@@ -66,4 +66,4 @@ def get_prompt(content, language, customer = "", feature = "", selected_offers =
 
 
 if __name__ == "__main__":
-    print(generate_post("Email", "English", "Short"))
+    print(generate_content("Email", "English", "Short"))

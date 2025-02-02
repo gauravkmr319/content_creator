@@ -1,6 +1,6 @@
 import streamlit as st
 from few_shot import FewShotLearner
-from content_creator import generate_post
+from content_creator import generate_content
 from preprocess import get_all_customers, get_all_offers, get_all_products
 
 
@@ -70,7 +70,7 @@ def main():
         selected_products = st.selectbox("Products Offers", options=target_product_option)
 
     if st.button("Generate"):
-        content = generate_post(selected_content, selected_language, selected_customer, selected_feature, selected_offers, selected_products)
+        content = generate_content(selected_content, selected_language, selected_customer, selected_feature, selected_offers, selected_products)
         st.markdown(f'<div style="background-color: lightblue; padding: 10px; border-radius: 5px;">{content}</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
