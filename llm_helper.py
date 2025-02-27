@@ -7,7 +7,7 @@ llm = ChatGroq(groq_api_key="gsk_M27s3NEulY5nCJWGP4MkWGdyb3FYffaLsCRGZevdmAboHRh
 
 
 if __name__ == "__main__":
-    response = llm.invoke("how to make pizza")
+    response = llm.invoke("how are you")
     print(response.content)
 
 

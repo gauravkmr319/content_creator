@@ -1,4 +1,5 @@
 from llm_helper import llm
+from few_shot import *
 import random
 
 #few_shot = FewShotLearner()
@@ -23,13 +24,13 @@ def get_length(content):
         return "short"
 
 
-def generate_content(content, language, customer = "", feature = "", selected_offers = "", selected_products = ""):
-    prompt = get_prompt(content, language, customer, feature, selected_offers, selected_products)
+def generate_content(content, language, customer = "", feature = "", selected_offers = "", selected_products = "", selected_tag = ""):
+    prompt = get_prompt(content, language, customer, feature, selected_offers, selected_products, selected_tag)
     response = llm.invoke(prompt)
     return response.content
 
 
-def get_prompt(content, language, customer = "", feature = "", selected_offers = "", selected_products = ""):
+def get_prompt(content, language, customer = "", feature = "", selected_offers = "", selected_products = "", selected_tag = ""):
     length_str = get_length_str(get_length(content))
 
     prompt = f'''
@@ -42,7 +43,7 @@ def get_prompt(content, language, customer = "", feature = "", selected_offers =
     3) Length: {length_str}
     Length of the generated {content} should be {length_str}
     4) Customer: {customer}
-    Please use {customer} name in the generated {content} if given
+    Please use {customer} name in the generated {content} is Coupon or email not for tweet and blog
     5) Feature: {feature}
     If Feature is not "" the it means add that term to the post, add related text/offer.
     if Feature="Hotel" then add offer related to the hotel.
@@ -59,8 +60,19 @@ def get_prompt(content, language, customer = "", feature = "", selected_offers =
     '''
     prompt = prompt.format(post_topic=content, post_length=length_str, post_language=language)
 
-    prompt += "8) Use the writing style as per the following examples."
-    prompt += f'\n\n Example {1}: \n\n {"We understand concerns about high fees. Enjoy waived fees for the first year with our Member Get Member"}'
+    examples = get_filtered_data(selected_tag)
+
+    if len(examples) > 0:
+        prompt += "8) Use following examples."
+
+    for i, row in enumerate(examples):
+        prompt += f'\n\n Example {i+1}: \n\n {row}'
+
+        if i == 4: # Use max two samples
+            break
+
+    #prompt += "8) Use the writing style as per the following examples."
+    #prompt += f'\n\n Example {1}: \n\n {"We understand concerns about high fees. Enjoy waived fees for the first year with our Member Get Member"}'
 
     return prompt
 

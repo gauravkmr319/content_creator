@@ -1,15 +1,15 @@
 import streamlit as st
-from few_shot import FewShotLearner
 from content_creator import generate_content
-from preprocess import get_all_customers, get_all_offers, get_all_products
+from preprocess import get_all_customers, get_all_offers, get_all_products, get_all_tag, get_best_feature_per_customer
 
 
-content_options = ["email", "blog", "tweet"]
+content_options = ["email", "blog", "tweet", "Coupon"]
 language_options = ["English", "Hindi"]
 feature_options = ["travel", "Hotel", "Restaurant", "Lounge", "Movie"]
 customer_options = get_all_customers()
 target_offers_option = get_all_offers()
 target_product_option = get_all_products()
+tag_option =  get_all_tag()
 
 
 
@@ -49,7 +49,7 @@ def main():
     )
     st.subheader("Content Creator")
 
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
+    col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
 
     with col1:
         selected_content = st.selectbox("Content", options=content_options)
@@ -69,8 +69,11 @@ def main():
     with col6:
         selected_products = st.selectbox("Products Offers", options=target_product_option)
 
+    with col7:
+        selected_tag = st.selectbox("Tag", options=tag_option)
+
     if st.button("Generate"):
-        content = generate_content(selected_content, selected_language, selected_customer, selected_feature, selected_offers, selected_products)
+        content = generate_content(selected_content, selected_language, selected_customer, selected_feature, selected_offers, selected_products, selected_tag)
         st.markdown(f'<div style="background-color: lightblue; padding: 10px; border-radius: 5px;">{content}</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":

@@ -4,6 +4,10 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.exceptions import OutputParserException
 import pandas as pd
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, MinMaxScaler
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 
@@ -38,24 +42,17 @@ def get_data():
     dataframe = pd.read_csv(dataset_path)
     return dataframe
 
+def get_all_tag():
+    dataset_path = "data/amex_gyfter.csv"
+    df = pd.read_csv(dataset_path)
+    return set(df['Tag'].tolist())
 
 if __name__ == "__main__":
 
-    dataset_path = "data/enhanced_synthetic_credit_card_data.csv"
+    dataset_path = "data/amex_gyfter.csv"
     df = pd.read_csv(dataset_path)
+    print(df)
+    print(set(df['Tag'].tolist()))
+    df2 = df[df['Tag'] == "shopping"]
+    print(df2)
 
-    # List of feature columns to evaluate
-    feature_columns = [
-        "travel_feature", "hotel_feature", "lounge_access_feature", "spend_feature",
-        "reward_feature", "redemption_feature", "credit_limit_feature", "billing_feature",
-        "payment_feature", "bonus_feature", "membership_feature", "shopping_feature"
-    ]
-
-    # Apply the method to get the best feature
-    df_with_best_features = get_best_feature_per_customer(df, feature_columns)
-
-    output_path = "data/synthetic_credit_card_with_best_features.csv"
-    df_with_best_features.to_csv(output_path, index=False)
-
-    print(get_all_offers(df))
-    print(get_all_products(df))
