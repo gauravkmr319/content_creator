@@ -2,8 +2,6 @@ from llm_helper import llm
 from few_shot import *
 import random
 
-#few_shot = FewShotLearner()
-
 
 def get_length_str(length):
     if length == "Short":
@@ -24,13 +22,13 @@ def get_length(content):
         return "short"
 
 
-def generate_content(content, language, customer = "", feature = "", selected_offers = "", selected_products = "", selected_tag = ""):
-    prompt = get_prompt(content, language, customer, feature, selected_offers, selected_products, selected_tag)
+def generate_content(content, language, feature = "", selected_offers = "", selected_products = "", selected_tag = ""):
+    prompt = get_prompt(content, language, feature, selected_offers, selected_products, selected_tag)
     response = llm.invoke(prompt)
     return response.content
 
 
-def get_prompt(content, language, customer = "", feature = "", selected_offers = "", selected_products = "", selected_tag = ""):
+def get_prompt(content, language, feature = "", selected_offers = "", selected_products = "", selected_tag = ""):
     length_str = get_length_str(get_length(content))
 
     prompt = f'''
@@ -42,19 +40,17 @@ def get_prompt(content, language, customer = "", feature = "", selected_offers =
     The script for the generated post should always be English.
     3) Length: {length_str}
     Length of the generated {content} should be {length_str}
-    4) Customer: {customer}
-    Please use {customer} name in the generated {content} is Coupon or email not for tweet and blog
-    5) Feature: {feature}
+    4) Feature: {feature}
     If Feature is not "" the it means add that term to the post, add related text/offer.
     if Feature="Hotel" then add offer related to the hotel.
     if Feature="Restaurant" then add offer related to the restaurant.
     if Feature="Travel" then add offer related to the Travel.
-    6) Selected Offers: {selected_offers}
+    5) Selected Offers: {selected_offers}
     please use {selected_offers} if given
     if Selected Offers is supp it means supplementary card for your family, friends, colleague
     if Selected Offers is upgrade it means upgrade your card
     if Selected Offers is MEMBER GET MEMBER it means you refer your friends,family, colleague
-    7) Selected Products: {selected_products}
+    6) Selected Products: {selected_products}
     please use {selected_products} if given
     
     '''
@@ -70,9 +66,6 @@ def get_prompt(content, language, customer = "", feature = "", selected_offers =
 
         if i == 4: # Use max two samples
             break
-
-    #prompt += "8) Use the writing style as per the following examples."
-    #prompt += f'\n\n Example {1}: \n\n {"We understand concerns about high fees. Enjoy waived fees for the first year with our Member Get Member"}'
 
     return prompt
 
