@@ -69,9 +69,9 @@ def get_prompt_2(selected_content, selected_language, selected_category, selecte
     for i, row in enumerate(examples):
         prompt += f'\n\n Example {i + 1}: \n\n {row}'
 
-        if i == 4:  # Use max two samples
+        if i == 4:
             break
-
+    print(prompt)
     prompt += f'If Sentiment is {sentiment} give rewards multiplier like 4X'
     return prompt
 

@@ -66,7 +66,7 @@ def get_prompt(content, language, feature = "", selected_offers = "", selected_p
 
         if i == 4: # Use max two samples
             break
-
+    print(prompt)
     return prompt
 
 

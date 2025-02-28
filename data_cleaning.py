@@ -5,21 +5,16 @@ import contractions
 import nltk
 from nltk.corpus import stopwords
 from textblob import TextBlob
-from langdetect import detect
-from datetime import datetime
 
-# Download required resources
 nltk.download("stopwords")
 stop_words = set(stopwords.words("english"))
 nlp = spacy.load("en_core_web_sm")
 
-# Load dataset
 file_path = "data/amex_gyfter.csv"
 df = pd.read_csv(file_path)
 print(df)
 
 
-# Function to clean text
 def clean_text(text):
     if pd.isna(text):
         return ""
@@ -40,7 +35,6 @@ def clean_text(text):
     return text
 
 
-# Function to normalize text (spell correction, abbreviations)
 def normalize_text(text):
     if pd.isna(text):
         return ""
@@ -48,7 +42,6 @@ def normalize_text(text):
     # Spell correction
     text = str(TextBlob(text).correct())
 
-    # Expand abbreviations
     abbreviations = {"CC": "Credit Card", "FYI": "For Your Information", "TnC": "Terms and Conditions"}
     text = " ".join([abbreviations[word] if word in abbreviations else word for word in text.split()])
 
@@ -62,13 +55,11 @@ def enrich_context(text):
 
     doc = nlp(text)
 
-    # Extract Named Entities (e.g., Partner Name, Offer Details)
     entities = {ent.text: ent.label_ for ent in doc.ents}
 
     # Sentiment Analysis (-1 to 1)
     sentiment = TextBlob(text).sentiment.polarity
 
-    # Extract Keywords (important words without stopwords)
     keywords = [token.text for token in doc if token.is_alpha and token.text.lower() not in stop_words]
 
     return {"entities": entities, "sentiment": sentiment, "keywords": keywords}
@@ -81,7 +72,6 @@ def personalize_content(text, category, brand):
 
     personalized_text = f"Exclusive {category} offer from {brand}! {text}"
 
-    # Customer Segmentation Example
     segments = {
         "Luxury": "Enjoy elite benefits with exclusive rewards.",
         "Travel": "Earn double miles on every flight booking!",

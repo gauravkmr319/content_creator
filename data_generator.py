@@ -3,7 +3,7 @@ import pandas as pd
 import random
 
 fake = Faker()
-Faker.seed(42)  # Ensure reproducibility
+Faker.seed(42)
 
 
 def generate_customer_offer_data(num_records=100):
@@ -28,7 +28,7 @@ def generate_customer_offer_data(num_records=100):
     return pd.DataFrame(data)
 
 
-# Define possible values for categorical fields
+
 categories = ["Travel", "Shopping", "Dining", "Entertainment", "Electronics"]
 partner_websites = ["Amazon", "Flipkart", "Myntra", "MakeMyTrip", "Zomato", "Swiggy", "BookMyShow"]
 tags = ["Limited Time", "Exclusive", "Trending", "Festival Special", "New Arrival"]
@@ -38,7 +38,6 @@ terms_conditions = ["Valid for limited period", "Applicable on selected items", 
 how_to_use = ["Apply coupon at checkout", "Use code at partner website", "Auto-applied at payment"]
 
 
-# Function to generate synthetic offer data
 def generate_synthetic_offer_data(num_records=1000):
     data = []
 
